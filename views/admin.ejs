@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <nav class="bg-white p-4 shadow-sm border-b flex justify-between items-center px-8">
+    <h1 class="text-xl font-bold text-gray-800">Owner Dashboard</h1>
+    <div class="flex items-center gap-4">
+      <a href="/shop" class="text-sm font-semibold text-blue-600 hover:underline">View Shop</a>
+      <a href="/owner/logout" class="text-sm font-semibold text-red-600 border border-red-200 px-3 py-1 rounded-lg hover:bg-red-50">Logout</a>
+    </div>
+  </nav>
+
+  <div class="max-w-6xl mx-auto p-8">
+    <% if (typeof success !== 'undefined' && success.length > 0) { %>
+      <div class="bg-green-500 text-white p-3 rounded-lg mb-6 text-center font-medium shadow">
+        <%= success %>
+      </div>
+    <% } %>
+
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">All Products</h2>
+      <a href="/owner/createproduct" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow font-semibold transition-colors">
+        + Create New Product
+      </a>
+    </div>
+
+    <% if (typeof products === 'undefined' || products.length === 0) { %>
+      <div class="bg-white p-8 rounded-xl shadow-sm border text-center text-gray-500">
+        No products found in store.
+      </div>
+    <% } else { %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <% products.forEach(function(product){ %>
+          <div class="p-4 border rounded-xl shadow-sm flex flex-col justify-between overflow-hidden" style="background-color: <%= product.bgcolor || '#ffffff' %>;">
+            <div>
+              <% if (product.image) { %>
+                <div class="w-full h-40 rounded-lg overflow-hidden mb-3 flex items-center justify-center" style="background-color: <%= product.panelcolor || '#f3f4f6' %>;">
+                  <img class="h-full w-full object-cover" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="<%= product.name %>">
+                </div>
+              <% } %>
+
+              <h3 class="text-lg font-bold mb-1" style="color: <%= product.textcolor || '#000000' %>;"><%= product.name %></h3>
+              <p class="font-semibold" style="color: <%= product.textcolor || '#000000' %>;">Price: ₹<%= product.price %></p>
+              <% if (product.discount > 0) { %>
+                <p class="text-sm text-green-700 font-semibold">Discount: ₹<%= product.discount %></p>
+              <% } %>
+            </div>
+            <div class="mt-4 flex justify-between gap-2">
+              <a href="/products/delete/<%= product._id %>" class="bg-red-600 hover:bg-red-700 text-white text-center py-2 px-3 rounded-lg w-full font-medium transition-colors">Delete</a>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

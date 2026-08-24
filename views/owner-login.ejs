@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Scatch</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md border">
+    <h2 class="text-2xl font-bold mb-2 text-gray-800 text-center">Admin Portal Login</h2>
+    <p class="text-xs text-center text-gray-500 mb-6">Restricted Access - Store Owner Only</p>
+
+    <% if (typeof error !== 'undefined' && error.length > 0) { %>
+      <div class="bg-red-500 text-white p-3 rounded-lg mb-4 text-center text-sm font-medium shadow">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <% if (typeof success !== 'undefined' && success.length > 0) { %>
+      <div class="bg-green-500 text-white p-3 rounded-lg mb-4 text-center text-sm font-medium shadow">
+        <%= success %>
+      </div>
+    <% } %>
+
+    <form action="/owner/login" method="POST" class="space-y-4">
+      <div>
+        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Admin Email</label>
+        <input type="email" name="email" required placeholder="admin@scatch.com" class="w-full border p-2.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Password</label>
+        <input type="password" name="password" required placeholder="••••••••" class="w-full border p-2.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black">
+      </div>
+      <button type="submit" class="w-full bg-black text-white p-3 rounded-lg font-bold hover:bg-gray-800 transition-colors shadow">
+        Login as Admin
+      </button>
+    </form>
+    
+    <div class="mt-6 text-center border-t pt-4">
+      <a href="/" class="text-xs font-semibold text-blue-600 hover:underline">&larr; Back to Public Login</a>
+    </div>
+  </div>
+</body>
+</html>

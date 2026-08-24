@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scatch - Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- Navigation Bar with + Add Items -->
+  <nav class="bg-white px-8 py-4 flex justify-between items-center shadow-sm border-b sticky top-0 z-50">
+    <a href="/shop" class="text-2xl font-bold tracking-tight text-gray-900">Scatch</a>
+    <div class="flex items-center gap-6">
+      <a href="/shop" class="text-sm font-semibold text-indigo-600 transition">Shop</a>
+      <a href="/cart" class="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition">Cart</a>
+      <a href="/owner/admin" class="text-sm font-semibold text-purple-600 hover:text-purple-800 transition">+ Add Items</a>
+      <a href="/users/logout" class="text-sm font-semibold text-red-600 border border-red-200 px-3.5 py-1.5 rounded-lg hover:bg-red-50 transition">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-6 py-8">
+    
+    <!-- Success Alert Message -->
+    <% if (typeof success !== 'undefined' && success.length > 0) { %>
+      <div class="bg-green-500 text-white p-3 rounded-lg mb-6 text-center font-medium shadow">
+        <%= success %>
+      </div>
+    <% } %>
+
+    <!-- Error Alert Message -->
+    <% if (typeof error !== 'undefined' && error.length > 0) { %>
+      <div class="bg-red-500 text-white p-3 rounded-lg mb-6 text-center font-medium shadow">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <!-- Header Section -->
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-3xl font-extrabold text-gray-900">Shop Collection</h2>
+      <span class="text-sm text-gray-500 font-medium">
+        <%= products ? products.length : 0 %> Items
+      </span>
+    </div>
+
+    <!-- Product Grid -->
+    <% if (typeof products === 'undefined' || products.length === 0) { %>
+      <div class="bg-white p-12 rounded-xl shadow-sm border text-center text-gray-500">
+        <p class="text-lg">No products available in store right now.</p>
+      </div>
+    <% } else { %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <% products.forEach(function(product) { %>
+          <div 
+            class="rounded-xl border shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group" 
+            style="background-color: <%= product.bgcolor || '#ffffff' %>;"
+          >
+            <div>
+              <!-- Photo Container -->
+              <div 
+                class="w-full h-56 flex items-center justify-center p-3 relative" 
+                style="background-color: <%= product.panelcolor || '#f9fafb' %>;"
+              >
+                <!-- Indian Rupee Discount Badge -->
+                <% if (product.discount && Number(product.discount) > 0) { %>
+                  <span class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow z-10">
+                    ₹<%= product.discount %> OFF
+                  </span>
+                <% } %>
+
+                <!-- Base64 Buffer Image -->
+                <% if (product.image) { %>
+                  <img 
+                    class="h-full w-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300" 
+                    src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" 
+                    alt="<%= product.name %>"
+                  >
+                <% } else { %>
+                  <div class="text-gray-400 text-sm font-medium">No Image Uploaded</div>
+                <% } %>
+              </div>
+
+              <!-- Product Details -->
+              <div class="p-5">
+                <h3 
+                  class="text-lg font-bold truncate mb-1" 
+                  style="color: <%= product.textcolor || '#111827' %>;"
+                >
+                  <%= product.name %>
+                </h3>
+
+                <!-- Price Display in Indian Rupees (₹) -->
+                <div class="flex items-baseline gap-2 mt-2">
+                  <% if (product.discount && Number(product.discount) > 0) { %>
+                    <span class="text-xl font-black" style="color: <%= product.textcolor || '#111827' %>;">
+                      ₹<%= Number(product.price) - Number(product.discount) %>
+                    </span>
+                    <span class="text-sm text-gray-400 line-through">
+                      ₹<%= product.price %>
+                    </span>
+                  <% } else { %>
+                    <span class="text-xl font-black" style="color: <%= product.textcolor || '#111827' %>;">
+                      ₹<%= product.price %>
+                    </span>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="p-5 pt-0">
+              <a 
+                href="/addtocart/<%= product._id %>" 
+                class="w-full inline-block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm"
+              >
+                Add to Cart
+              </a>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </main>
+
+</body>
+</html>

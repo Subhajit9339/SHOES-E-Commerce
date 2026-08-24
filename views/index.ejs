@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scatch - Welcome</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-4xl bg-white rounded-2xl shadow-xl border overflow-hidden grid grid-cols-1 md:grid-cols-2">
+    
+    <!-- Left: Register Section -->
+    <div class="p-8 border-b md:border-b-0 md:border-r border-gray-100 flex flex-col justify-center">
+      <h2 class="text-4xl font-extrabold text-gray-900 mb-2">Create Account</h2>
+      <p class="text-base text-gray-500 mb-6">Join Scatch today for exclusive items.</p>
+
+      <% if (typeof error !== 'undefined' && error.length > 0) { %>
+        <div class="bg-red-500 text-white p-3 rounded-lg mb-4 text-center text-base font-medium">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form action="/users/register" method="POST" class="space-y-4">
+        <div>
+          <label class="block text-sm font-bold text-gray-700 uppercase mb-1">Full Name</label>
+          <input type="text" name="fullname" placeholder="John Doe" required class="w-full border p-3 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-indigo-600">
+        </div>
+        <div>
+          <label class="block text-sm font-bold text-gray-700 uppercase mb-1">Email Address</label>
+          <input type="email" name="email" placeholder="john@example.com" required class="w-full border p-3 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-indigo-600">
+        </div>
+        <div>
+          <label class="block text-sm font-bold text-gray-700 uppercase mb-1">Password</label>
+          <input type="password" name="password" placeholder="••••••••" required class="w-full border p-3 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-indigo-600">
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-bold py-3 rounded-lg transition-colors shadow">
+          Register User
+        </button>
+      </form>
+    </div>
+
+    <!-- Right: User Login Section -->
+    <div class="p-8 bg-gray-50 flex flex-col justify-between">
+      <div>
+        <h2 class="text-4xl font-extrabold text-gray-900 mb-2">Welcome Back</h2>
+        <p class="text-base text-gray-500 mb-6">Log in to your account to view your cart.</p>
+
+        <form action="/users/login" method="POST" class="space-y-4">
+          <div>
+            <label class="block text-sm font-bold text-gray-700 uppercase mb-1">Email Address</label>
+            <input type="email" name="email" placeholder="john@example.com" required class="w-full border p-3 rounded-lg text-base bg-white focus:outline-none focus:ring-2 focus:ring-black">
+          </div>
+          <div>
+            <label class="block text-sm font-bold text-gray-700 uppercase mb-1">Password</label>
+            <input type="password" name="password" placeholder="••••••••" required class="w-full border p-3 rounded-lg text-base bg-white focus:outline-none focus:ring-2 focus:ring-black">
+          </div>
+          <button type="submit" class="w-full bg-black hover:bg-gray-800 text-white text-lg font-bold py-3 rounded-lg transition-colors shadow">
+            Log In
+          </button>
+        </form>
+      </div>
+
+      <!-- Link to Admin Login -->
+      <div class="mt-8 text-center border-t border-gray-200 pt-4">
+        <a href="/owner/login" class="text-sm font-semibold text-purple-600 hover:underline">
+          Are you a Store Admin? Access Admin Portal &rarr;
+        </a>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
