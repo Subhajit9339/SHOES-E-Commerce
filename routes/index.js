@@ -3,6 +3,7 @@ const router = express.Router();
 const isloggedin = require('../middlewares/isLoggedin');
 const productModel = require('../models/product-model');
 const userModel = require('../models/user-model');
+const orderModel = require('../models/order-model'); // <-- import it
 
 // 1. Home / Login Page
 router.get('/', function (req, res) {
@@ -115,25 +116,29 @@ router.post('/checkout', isloggedin, async function (req, res) {
       total += Number(item.price || 0);
       discount += Number(item.discount || 0);
     });
-    let bill = total - discount + (user.cart.length > 0 ? 20 : 0);
+    let shipping = user.cart.length > 0 ? 20 : 0;
+    let bill = total - discount + shipping;
 
-    // Save Order Details
-    user.orders.push({
-      items: user.cart.map((item) => item._id),
-      totalAmount: bill,
+    // Create the order in its own collection
+    let newOrder = await orderModel.create({
+      user: user._id,
+      products: user.cart.map((item) => item._id),
+      total: total,
+      discount: discount,
+      shipping: shipping,
       address: address,
       phone: phone,
       paymentMethod: paymentMethod || 'COD',
-      date: new Date()
     });
 
-    // Clear cart and update Database
+    // Clear cart and update user
     user.cart = [];
     await user.save();
 
     req.flash('success', `Order placed successfully via ${paymentMethod === 'Online' ? 'Online Payment' : 'Cash on Delivery'}!`);
     res.redirect('/shop');
   } catch (err) {
+    console.error(err); // log the real error server-side too
     res.status(500).send(err.message);
   }
 });
