@@ -25,9 +25,7 @@ A full-stack Shoes E-Commerce website built using Node.js, Express.js, MongoDB a
 
 ## 🔗 Links
 
-### GitHub Repository
 
-https://github.com/Subhajit9339/SHOES-E-Commerce
 
 ### Live Demo
 
