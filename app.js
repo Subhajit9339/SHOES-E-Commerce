@@ -45,8 +45,16 @@ app.use('/users', usersRouter);
 app.use('/products', productRouter);
 
 // Server
+<<<<<<< HEAD
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
     console.log(`SHOES E-Commerce Server Running on Port ${PORT}`);
 });
+=======
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`SHOES E-Commerce Server Running on Port ${PORT}`);
+});
+>>>>>>> 602c8aeb1e5e939fe53b991dfd2cfc589fe44b92
