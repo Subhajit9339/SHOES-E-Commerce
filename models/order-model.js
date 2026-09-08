@@ -4,6 +4,7 @@ const orderSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
+    required: true,
   },
   products: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -20,6 +21,18 @@ const orderSchema = mongoose.Schema({
   shipping: {
     type: Number,
     default: 0,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  paymentMethod: {
+    type: String,
+    default: 'COD',
   },
   status: {
     type: String,
